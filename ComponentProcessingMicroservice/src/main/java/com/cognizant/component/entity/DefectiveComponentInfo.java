@@ -14,6 +14,7 @@ public class DefectiveComponentInfo {
 		return componentType;
 	}
 	public void setComponentType(String componentType) {
+		System.out.println(componentType);
 		this.componentType = componentType;
 	}
 	public String getComponentName() {

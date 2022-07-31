@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name="PROCESSED_CHARGE_INFO")
+@Component
 public class ProcessedChargeInfo {
 	
 	@Id
@@ -19,8 +22,8 @@ public class ProcessedChargeInfo {
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long i) {
+		this.id = i;
 	}
 	public Long getProcessedCharge() {
 		return processedCharge;

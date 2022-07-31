@@ -1,6 +1,7 @@
 package com.cognizant.component.entity;
 
 import java.sql.Date;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -9,10 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
+
 
 @Entity
 @Table(name="PROCESS_REQUEST_INFO")
@@ -20,20 +20,18 @@ public class ProcessRequestInfo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Long id;
 	private String userName;
 	private String contactNumber;
 	@Embedded
 	private DefectiveComponentInfo defectiveComponentInfo;
-	 @Column(name = "createdDate", nullable = false, updatable = false)
-	 @Temporal(TemporalType.TIMESTAMP)
-	 @CreatedDate
-	 private Date date;
-	 
-	public int getId() {
+	@Column(name = "creation_date", nullable = false, updatable = false)
+	@CreationTimestamp
+	private Date cdate;
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getUserName() {
@@ -54,31 +52,31 @@ public class ProcessRequestInfo {
 	public void setDefectiveComponentInfo(DefectiveComponentInfo defectiveComponentInfo) {
 		this.defectiveComponentInfo = defectiveComponentInfo;
 	}
-	public Date getDate() {
-		return date;
+	public Date getCdate() {
+		return cdate;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCdate(Date cdate) {
+		this.cdate = cdate;
 	}
 	@Override
 	public String toString() {
 		return "ProcessRequestInfo [id=" + id + ", userName=" + userName + ", contactNumber=" + contactNumber
-				+ ", defectiveComponentInfo=" + defectiveComponentInfo + ", date=" + date + "]";
+				+ ", defectiveComponentInfo=" + defectiveComponentInfo + ", cdate=" + cdate + "]";
 	}
-	public ProcessRequestInfo(int id, String userName, String contactNumber,
-			DefectiveComponentInfo defectiveComponentInfo, Date date) {
+	public ProcessRequestInfo(Long id, String userName, String contactNumber,
+			DefectiveComponentInfo defectiveComponentInfo, Date cdate) {
 		super();
 		this.id = id;
 		this.userName = userName;
 		this.contactNumber = contactNumber;
 		this.defectiveComponentInfo = defectiveComponentInfo;
-		this.date = date;
+		this.cdate = cdate;
 	}
 	public ProcessRequestInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-		 
+	
+	
 	 
-	 
-}
+	}
