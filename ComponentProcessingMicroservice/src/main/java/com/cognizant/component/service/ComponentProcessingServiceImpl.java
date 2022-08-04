@@ -1,5 +1,8 @@
 package com.cognizant.component.service;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +28,8 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 	@Autowired
 	ProcessedChargeInfo processedChargeInfo;
 	
+	Calendar calendar = Calendar.getInstance();  
+	
 	@Override
 	public String saveProcessRequest(ProcessRequestInfo processRequestInfo) {
 		
@@ -33,7 +38,12 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 		Long result = packagingClient.packageDelivery(processRequestInfo.getDefectiveComponentInfo().getComponentType(), processRequestInfo.getDefectiveComponentInfo().getQuantity());
 		System.out.println(processRequestInfo.getId());
 		processedChargeInfo.setId(processRequestInfo.getId());
-		processedChargeInfo.setProcessedCharge((long) 456);
+		if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Integral")) {
+			processedChargeInfo.setProcessedCharge((long)500);
+		}
+		else if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Accessory")) {
+			processedChargeInfo.setProcessedCharge((long)300);
+		}
 		processedChargeInfo.setPackageAndDeliveryCharge(result);
 		processedChargeInfo.setDateOfDelivery(processRequestInfo.getCdate());
 		processedChargeRepo.save(processedChargeInfo);
