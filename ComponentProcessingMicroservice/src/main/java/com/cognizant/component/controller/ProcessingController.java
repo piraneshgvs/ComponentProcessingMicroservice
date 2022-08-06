@@ -13,7 +13,7 @@ import com.cognizant.component.service.AuthService;
 import com.cognizant.component.service.ComponentProcessingServiceImpl;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin
 @RequestMapping("/processing")
 public class ProcessingController {
 	
@@ -25,13 +25,13 @@ public class ProcessingController {
 	ComponentProcessingServiceImpl componentProcessingServiceImpl;
 	
 	@PostMapping(value="/CompleteProcessing", consumes="application/json")
-	public String processingDetail(@RequestHeader(name="Authorization", required = true) String token, @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) {
+	public int processingDetail(@RequestHeader(name="Authorization", required = true) String token, @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
-			//System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
+			System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
 			String result = componentProcessingServiceImpl.saveProcessRequest(processRequestInfo);
-			return result;
+			return 1;
 		}
-		return "Test was not Successfull";
+		return 0;
 	}
 
 }
