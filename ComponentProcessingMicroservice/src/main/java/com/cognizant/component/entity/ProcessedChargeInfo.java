@@ -15,15 +15,21 @@ public class ProcessedChargeInfo {
 	
 	@Id
 	private Long id;
+	private String userName;
 	private Long processedCharge;
 	private Long packageAndDeliveryCharge;
 	private Date dateOfDelivery;
-	
 	public Long getId() {
 		return id;
 	}
-	public void setId(Long i) {
-		this.id = i;
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public Long getProcessedCharge() {
 		return processedCharge;
@@ -45,12 +51,14 @@ public class ProcessedChargeInfo {
 	}
 	@Override
 	public String toString() {
-		return "ProcessedChargeInfo [id=" + id + ", processedCharge=" + processedCharge + ", packageAndDeliveryCharge="
-				+ packageAndDeliveryCharge + ", dateOfDelivery=" + dateOfDelivery + "]";
+		return "ProcessedChargeInfo [id=" + id + ", userName=" + userName + ", processedCharge=" + processedCharge
+				+ ", packageAndDeliveryCharge=" + packageAndDeliveryCharge + ", dateOfDelivery=" + dateOfDelivery + "]";
 	}
-	public ProcessedChargeInfo(Long id, Long processedCharge, Long packageAndDeliveryCharge, Date dateOfDelivery) {
+	public ProcessedChargeInfo(Long id, String userName, Long processedCharge, Long packageAndDeliveryCharge,
+			Date dateOfDelivery) {
 		super();
 		this.id = id;
+		this.userName = userName;
 		this.processedCharge = processedCharge;
 		this.packageAndDeliveryCharge = packageAndDeliveryCharge;
 		this.dateOfDelivery = dateOfDelivery;
@@ -59,6 +67,8 @@ public class ProcessedChargeInfo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
 	
 	
 
