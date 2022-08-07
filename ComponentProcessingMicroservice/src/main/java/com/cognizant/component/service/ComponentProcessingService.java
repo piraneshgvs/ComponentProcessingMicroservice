@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.cognizant.component.entity.ProcessRequestInfo;
 import com.cognizant.component.model.DefectiveDetails;
+import com.cognizant.component.model.DefectiveId;
 
 public interface ComponentProcessingService {
 	
 	public String saveProcessRequest(ProcessRequestInfo processRequestInfo);
 	
 	public List<DefectiveDetails> getDetails(String userName);
+	
+	public List<DefectiveId> getDefectiveDetails(Long id);
 
 }

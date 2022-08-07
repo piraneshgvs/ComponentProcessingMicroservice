@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import com.cognizant.component.client.PackagingClient;
 import com.cognizant.component.entity.ProcessRequestInfo;
 import com.cognizant.component.entity.ProcessedChargeInfo;
 import com.cognizant.component.model.DefectiveDetails;
+import com.cognizant.component.model.DefectiveId;
 import com.cognizant.component.repository.ProcessRequestRepo;
 import com.cognizant.component.repository.ProcessedChargeRepo;
 
@@ -33,6 +35,9 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 	
 	@Autowired
 	DefectiveDetails defectiveDetails;
+	
+	@Autowired
+	DefectiveId defectiveId;
 	
 	Calendar calendar = Calendar.getInstance();  
 	
@@ -65,6 +70,18 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 		defectiveDetails.setProcessedChargeInfo(processedChargeRepo.findByUserName(userName));
 		details.add(defectiveDetails);
 		return details;
+	}
+
+	@Override
+	public List<DefectiveId> getDefectiveDetails(Long id) {
+		
+		List<DefectiveId> details = new ArrayList<DefectiveId>();
+		defectiveId.setProcessRequestInfo(processRequestRepo.findById(id));
+		defectiveId.setProcessedChargeInfo(processedChargeRepo.findById(id));
+		details.add(defectiveId);
+		
+		return details;
+		
 	}
 	
 	

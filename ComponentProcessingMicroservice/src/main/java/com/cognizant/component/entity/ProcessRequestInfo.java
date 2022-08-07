@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 
@@ -28,11 +29,13 @@ public class ProcessRequestInfo {
 	@Column(name = "creation_date", nullable = false, updatable = false)
 	@CreationTimestamp
 	private Date cdate;
-	public Long getId() {
-		return id;
-	}
+	
+	
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getId() {
+		return id;
 	}
 	public String getUserName() {
 		return userName;
@@ -58,10 +61,12 @@ public class ProcessRequestInfo {
 	public void setCdate(Date cdate) {
 		this.cdate = cdate;
 	}
+
 	@Override
 	public String toString() {
 		return "ProcessRequestInfo [id=" + id + ", userName=" + userName + ", contactNumber=" + contactNumber
-				+ ", defectiveComponentInfo=" + defectiveComponentInfo + ", cdate=" + cdate + "]";
+				+ ", defectiveComponentInfo=" + defectiveComponentInfo + ", cdate=" + cdate 
+				+ "]";
 	}
 	public ProcessRequestInfo(Long id, String userName, String contactNumber,
 			DefectiveComponentInfo defectiveComponentInfo, Date cdate) {
@@ -71,11 +76,13 @@ public class ProcessRequestInfo {
 		this.contactNumber = contactNumber;
 		this.defectiveComponentInfo = defectiveComponentInfo;
 		this.cdate = cdate;
+		
 	}
 	public ProcessRequestInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 	
 	 
