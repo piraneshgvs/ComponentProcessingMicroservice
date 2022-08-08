@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,8 +45,10 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 	Calendar calendar = Calendar.getInstance();  
 	
 	@Override
-	public String saveProcessRequest(ProcessRequestInfo processRequestInfo) {
+	public String saveProcessRequest(ProcessRequestInfo processRequestInfo) throws ParseException {
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance();
 		//processRequestRepo.save(processRequestDetail.getUserName(),processRequestDetail.getContactNumber(),processRequestDetail.getDefectiveComponentDetail());
 		processRequestRepo.save(processRequestInfo);
 		Long result = packagingClient.packageDelivery(processRequestInfo.getDefectiveComponentInfo().getComponentType(), processRequestInfo.getDefectiveComponentInfo().getQuantity());
@@ -52,12 +57,17 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 		processedChargeInfo.setUserName(processRequestInfo.getUserName());
 		if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Integral")) {
 			processedChargeInfo.setProcessedCharge((long)500);
+			cal.add(Calendar.DAY_OF_MONTH,5);
+			String addedDate = sdf.format(cal.getTime());
+			processedChargeInfo.setDateOfDelivery(sdf.parse(addedDate));
 		}
 		else if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Accessory")) {
 			processedChargeInfo.setProcessedCharge((long)300);
+			cal.add(Calendar.DAY_OF_MONTH,2);
+			String addedDate = sdf.format(cal.getTime());
+			processedChargeInfo.setDateOfDelivery(sdf.parse(addedDate));
 		}
 		processedChargeInfo.setPackageAndDeliveryCharge(result);
-		processedChargeInfo.setDateOfDelivery(processRequestInfo.getCdate());
 		processedChargeRepo.save(processedChargeInfo);
 		
 		return "Success";

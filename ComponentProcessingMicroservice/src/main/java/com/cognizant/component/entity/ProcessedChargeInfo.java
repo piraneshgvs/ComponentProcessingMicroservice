@@ -1,6 +1,6 @@
 package com.cognizant.component.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -46,8 +46,8 @@ public class ProcessedChargeInfo {
 	public Date getDateOfDelivery() {
 		return dateOfDelivery;
 	}
-	public void setDateOfDelivery(Date dateOfDelivery) {
-		this.dateOfDelivery = dateOfDelivery;
+	public void setDateOfDelivery(java.util.Date date) {
+		this.dateOfDelivery = date;
 	}
 	@Override
 	public String toString() {

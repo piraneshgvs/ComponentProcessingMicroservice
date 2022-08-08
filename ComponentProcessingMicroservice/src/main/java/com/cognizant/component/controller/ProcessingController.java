@@ -1,5 +1,6 @@
 package com.cognizant.component.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,12 @@ public class ProcessingController {
 	ComponentProcessingService componentProcessingService;
 	
 	@PostMapping(value="/CompleteProcessing", consumes="application/json")
-	public Long processingDetail(@RequestHeader(name="Authorization", required = true) String token, @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) {
-		if(authService.getAuthorization(token).equals("Valid Token")) {
+	public Long processingDetail(@RequestHeader(name="Authorization", required = true) String token, @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) throws ParseException {
+		//if(authService.getAuthorization(token).equals("Valid Token")) {
 			System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
 			String result = componentProcessingService.saveProcessRequest(processRequestInfo);
 			return processRequestInfo.getId();
-		}
-		return 0L;
+		
 	}
 	
 	
@@ -55,7 +55,7 @@ public class ProcessingController {
 		return null;
 	}
 	
-	@GetMapping(value="/getDetails/{id}")
+	@GetMapping(value="/ProcessDetail/{id}")
 	public List<DefectiveId> getDetailsById(@RequestHeader(name="Authorization", required = true) String token,@PathVariable Long id) {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
 		List<DefectiveId> defectiveId = componentProcessingService.getDefectiveDetails(id);
