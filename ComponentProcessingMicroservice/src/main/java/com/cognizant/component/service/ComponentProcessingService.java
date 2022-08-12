@@ -13,6 +13,6 @@ public interface ComponentProcessingService {
 	
 	public List<DefectiveDetails> getDetails(String userName);
 	
-	public List<DefectiveId> getDefectiveDetails(Long id);
+	public DefectiveId getDefectiveDetails(Long id);
 
 }

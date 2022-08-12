@@ -56,9 +56,9 @@ public class ProcessingController {
 	}
 	
 	@GetMapping(value="/ProcessDetail/{id}")
-	public List<DefectiveId> getDetailsById(@RequestHeader(name="Authorization", required = true) String token,@PathVariable Long id) {
+	public DefectiveId getDetailsById(@RequestHeader(name="Authorization", required = true) String token,@PathVariable Long id) {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
-		List<DefectiveId> defectiveId = componentProcessingService.getDefectiveDetails(id);
+		DefectiveId defectiveId = componentProcessingService.getDefectiveDetails(id);
 		return defectiveId;
 		}
 		return null;

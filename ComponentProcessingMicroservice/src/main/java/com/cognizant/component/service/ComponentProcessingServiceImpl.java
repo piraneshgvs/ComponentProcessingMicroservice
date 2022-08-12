@@ -50,8 +50,10 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		//processRequestRepo.save(processRequestDetail.getUserName(),processRequestDetail.getContactNumber(),processRequestDetail.getDefectiveComponentDetail());
-		processRequestRepo.save(processRequestInfo);
 		Long result = packagingClient.packageDelivery(processRequestInfo.getDefectiveComponentInfo().getComponentType(), processRequestInfo.getDefectiveComponentInfo().getQuantity());
+		if(result!=null) {
+			processRequestRepo.save(processRequestInfo);
+		}
 		System.out.println(processRequestInfo.getId());
 		processedChargeInfo.setId(processRequestInfo.getId());
 		processedChargeInfo.setUserName(processRequestInfo.getUserName());
@@ -68,11 +70,15 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 			processedChargeInfo.setDateOfDelivery(sdf.parse(addedDate));
 		}
 		processedChargeInfo.setPackageAndDeliveryCharge(result);
+		if(processedChargeInfo.getPackageAndDeliveryCharge()!=null) {
 		processedChargeRepo.save(processedChargeInfo);
-		
 		return "Success";
+		}
+		
+		return "Fail";
 	}
 
+	
 	@Override
 	public List<DefectiveDetails> getDetails(String userName) {
 		List<DefectiveDetails> details = new ArrayList<DefectiveDetails>();
@@ -81,16 +87,15 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 		details.add(defectiveDetails);
 		return details;
 	}
+	 
 
 	@Override
-	public List<DefectiveId> getDefectiveDetails(Long id) {
+	public DefectiveId getDefectiveDetails(Long id) {
 		
-		List<DefectiveId> details = new ArrayList<DefectiveId>();
 		defectiveId.setProcessRequestInfo(processRequestRepo.findById(id));
 		defectiveId.setProcessedChargeInfo(processedChargeRepo.findById(id));
-		details.add(defectiveId);
 		
-		return details;
+		return defectiveId;
 		
 	}
 	
