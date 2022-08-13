@@ -1,13 +1,22 @@
 package com.cognizant.component.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class DefectiveComponentInfo {
 	
+	@NotBlank(message="Component Type cannot be blank")
 	private String componentType;
+	@NotBlank(message="Component Name cannot be blank")
 	private String componentName;
+	@NotNull
+	@Min(1)
 	private Long quantity;
+	@NotBlank(message="Description cannot be blank")
 	private String description;
 	
 	public String getComponentType() {

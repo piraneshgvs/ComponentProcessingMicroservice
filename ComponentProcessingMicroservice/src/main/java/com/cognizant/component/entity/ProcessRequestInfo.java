@@ -1,6 +1,8 @@
 package com.cognizant.component.entity;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -10,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,18 +22,27 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name="PROCESS_REQUEST_INFO")
-public class ProcessRequestInfo {
+public class ProcessRequestInfo implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+	@NotBlank(message="userName cannot be blank")
 	private String userName;
+	@NotBlank(message="Contact Number cannot be blank")
+	@Pattern(regexp = "^((\\\\+91-?)|0)?[0-9]{10}$")
+	@Column(length = 10)
 	private String contactNumber;
 	@Embedded
+	@Valid
 	private DefectiveComponentInfo defectiveComponentInfo;
 	@Column(name = "creation_date", nullable = false, updatable = false)
 	@CreationTimestamp
-	private Date cdate;
+	private LocalDate cdate;
 	
 	
 	public void setId(Long id) {
@@ -55,10 +69,10 @@ public class ProcessRequestInfo {
 	public void setDefectiveComponentInfo(DefectiveComponentInfo defectiveComponentInfo) {
 		this.defectiveComponentInfo = defectiveComponentInfo;
 	}
-	public Date getCdate() {
+	public LocalDate getCdate() {
 		return cdate;
 	}
-	public void setCdate(Date cdate) {
+	public void setCdate(LocalDate cdate) {
 		this.cdate = cdate;
 	}
 
@@ -69,7 +83,7 @@ public class ProcessRequestInfo {
 				+ "]";
 	}
 	public ProcessRequestInfo(Long id, String userName, String contactNumber,
-			DefectiveComponentInfo defectiveComponentInfo, Date cdate) {
+			DefectiveComponentInfo defectiveComponentInfo, LocalDate cdate) {
 		super();
 		this.id = id;
 		this.userName = userName;

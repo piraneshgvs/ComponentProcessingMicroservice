@@ -8,8 +8,10 @@ import java.util.Optional;
 import java.util.Calendar;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.cognizant.component.client.PackagingClient;
@@ -42,37 +44,33 @@ public class ComponentProcessingServiceImpl implements ComponentProcessingServic
 	@Autowired
 	DefectiveId defectiveId;
 	
-	Calendar calendar = Calendar.getInstance();  
+	LocalDate localDate = LocalDate.now();
 	
 	@Override
 	public String saveProcessRequest(ProcessRequestInfo processRequestInfo) throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar cal = Calendar.getInstance();
+		
 		//processRequestRepo.save(processRequestDetail.getUserName(),processRequestDetail.getContactNumber(),processRequestDetail.getDefectiveComponentDetail());
-		Long result = packagingClient.packageDelivery(processRequestInfo.getDefectiveComponentInfo().getComponentType(), processRequestInfo.getDefectiveComponentInfo().getQuantity());
-		if(result!=null) {
+		 ResponseEntity<Long> responseEntity  = packagingClient.packageDelivery(processRequestInfo.getDefectiveComponentInfo().getComponentType(), processRequestInfo.getDefectiveComponentInfo().getQuantity());
+		if(responseEntity.getStatusCode().is2xxSuccessful()&&responseEntity.hasBody()) {
 			processRequestRepo.save(processRequestInfo);
-		}
 		System.out.println(processRequestInfo.getId());
 		processedChargeInfo.setId(processRequestInfo.getId());
 		processedChargeInfo.setUserName(processRequestInfo.getUserName());
 		if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Integral")) {
 			processedChargeInfo.setProcessedCharge((long)500);
-			cal.add(Calendar.DAY_OF_MONTH,5);
-			String addedDate = sdf.format(cal.getTime());
-			processedChargeInfo.setDateOfDelivery(sdf.parse(addedDate));
+			System.out.println("Date of delivery : "+localDate.plusDays(5));
+			processedChargeInfo.setDateOfDelivery(localDate.plusDays(5));
 		}
 		else if(processRequestInfo.getDefectiveComponentInfo().getComponentType().equals("Accessory")) {
 			processedChargeInfo.setProcessedCharge((long)300);
-			cal.add(Calendar.DAY_OF_MONTH,2);
-			String addedDate = sdf.format(cal.getTime());
-			processedChargeInfo.setDateOfDelivery(sdf.parse(addedDate));
+			processedChargeInfo.setDateOfDelivery(localDate.plusDays(2));
 		}
-		processedChargeInfo.setPackageAndDeliveryCharge(result);
+		processedChargeInfo.setPackageAndDeliveryCharge(responseEntity.getBody());
 		if(processedChargeInfo.getPackageAndDeliveryCharge()!=null) {
 		processedChargeRepo.save(processedChargeInfo);
 		return "Success";
+		}
 		}
 		
 		return "Fail";

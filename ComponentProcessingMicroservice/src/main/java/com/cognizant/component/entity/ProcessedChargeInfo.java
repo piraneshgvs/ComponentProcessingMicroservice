@@ -1,7 +1,9 @@
 package com.cognizant.component.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -15,10 +17,14 @@ public class ProcessedChargeInfo {
 	
 	@Id
 	private Long id;
+	@Column(nullable = false)
 	private String userName;
+	@Column(nullable = false)
 	private Long processedCharge;
+	@Column(nullable = false)
 	private Long packageAndDeliveryCharge;
-	private Date dateOfDelivery;
+	@Column(nullable = false)
+	private LocalDate dateOfDelivery;
 	public Long getId() {
 		return id;
 	}
@@ -43,11 +49,11 @@ public class ProcessedChargeInfo {
 	public void setPackageAndDeliveryCharge(Long packageAndDeliveryCharge) {
 		this.packageAndDeliveryCharge = packageAndDeliveryCharge;
 	}
-	public Date getDateOfDelivery() {
+	public LocalDate getDateOfDelivery() {
 		return dateOfDelivery;
 	}
-	public void setDateOfDelivery(java.util.Date date) {
-		this.dateOfDelivery = date;
+	public void setDateOfDelivery(LocalDate localDate) {
+		this.dateOfDelivery = localDate;
 	}
 	@Override
 	public String toString() {
@@ -55,7 +61,7 @@ public class ProcessedChargeInfo {
 				+ ", packageAndDeliveryCharge=" + packageAndDeliveryCharge + ", dateOfDelivery=" + dateOfDelivery + "]";
 	}
 	public ProcessedChargeInfo(Long id, String userName, Long processedCharge, Long packageAndDeliveryCharge,
-			Date dateOfDelivery) {
+			LocalDate dateOfDelivery) {
 		super();
 		this.id = id;
 		this.userName = userName;

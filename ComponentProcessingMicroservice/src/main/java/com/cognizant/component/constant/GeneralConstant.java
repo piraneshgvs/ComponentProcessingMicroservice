@@ -6,5 +6,7 @@ public class GeneralConstant {
 	public static final int ACCESSORY_PROCESSING_CHARGE = 300;
 	public static final int INTEGRAL_PROCESS_DURATION = 5;
 	public static final int ACCESSORY_PROCESS_DURATION = 2;
+	
+	public static final String ID_EXCEPTION = "Something went wrong";
 
 }
