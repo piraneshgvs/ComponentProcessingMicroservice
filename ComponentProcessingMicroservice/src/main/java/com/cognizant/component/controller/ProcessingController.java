@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.http.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.cognizant.component.constant.GeneralConstant;
 import com.cognizant.component.entity.ProcessRequestInfo;
 import com.cognizant.component.model.DefectiveDetails;
@@ -25,6 +28,7 @@ import com.cognizant.component.model.DefectiveId;
 import com.cognizant.component.service.AuthService;
 import com.cognizant.component.service.ComponentProcessingService;
 import com.cognizant.component.service.ComponentProcessingServiceImpl;
+
 
 @RestController
 @CrossOrigin
@@ -41,10 +45,13 @@ public class ProcessingController {
 	@Autowired
 	ComponentProcessingService componentProcessingService;
 	
+	private static final Logger logger = LoggerFactory.getLogger(ProcessingController.class);
+	
 	@PostMapping(value="/CompleteProcessing", consumes="application/json")
 	public ResponseEntity<Long> processingDetail(@RequestHeader(name="Authorization", required = true) String token,@Valid @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) throws ParseException {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
-			System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
+			//System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
+			logger.info("Quantity : "+processRequestInfo.getDefectiveComponentInfo().getQuantity());
 			String result = componentProcessingService.saveProcessRequest(processRequestInfo);
 			return new ResponseEntity<>(processRequestInfo.getId(),HttpStatus.OK);
 		
