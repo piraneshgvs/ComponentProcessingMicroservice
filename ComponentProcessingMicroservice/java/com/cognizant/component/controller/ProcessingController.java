@@ -32,7 +32,7 @@ import com.cognizant.component.service.ComponentProcessingServiceImpl;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/processing")
+@RequestMapping("/api/processing")
 public class ProcessingController {
 	
 	@Autowired
@@ -47,12 +47,11 @@ public class ProcessingController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ProcessingController.class);
 	
-	@PostMapping(value="/CompleteProcessing", consumes="application/json")
+	@PostMapping(value="/completeProcessing", consumes="application/json")
 	public ResponseEntity<Long> processingDetail(@RequestHeader(name="Authorization", required = true) String token,@Valid @RequestBody(required=true) ProcessRequestInfo processRequestInfo ) throws ParseException {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
-			//System.out.println(processRequestInfo.getDefectiveComponentInfo().getQuantity());
-			logger.info("Quantity : "+processRequestInfo.getDefectiveComponentInfo().getQuantity());
 			String result = componentProcessingService.saveProcessRequest(processRequestInfo);
+			logger.info("Processing Detail Success!!!");
 			return new ResponseEntity<>(processRequestInfo.getId(),HttpStatus.OK);
 		
 	}
@@ -70,7 +69,7 @@ public class ProcessingController {
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	
-	@GetMapping(value="/ProcessDetail/{id}")
+	@GetMapping(value="/processDetail/{id}")
 	public ResponseEntity<DefectiveId> getDetailsById(@RequestHeader(name="Authorization", required = true) String token,@PathVariable(required=true) Long id) {
 		if(authService.getAuthorization(token).equals("Valid Token")) {
 			if(id!=null&&id>=1) {

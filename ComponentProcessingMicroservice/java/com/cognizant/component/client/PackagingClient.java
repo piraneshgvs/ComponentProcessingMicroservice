@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name="PACKAGE-AND-DELIVERY")
 public interface PackagingClient {
 	
-	@GetMapping("/GetPackagingDeliveryCharge")
+	@GetMapping("/api/packaging/getPackagingDeliveryCharge")
 	public ResponseEntity<Long> packageDelivery(@RequestParam String componentType,@RequestParam Long count);
 
 }

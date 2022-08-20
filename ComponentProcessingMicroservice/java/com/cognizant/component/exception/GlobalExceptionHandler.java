@@ -18,8 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 	
-	
-
 	  protected ResponseEntity<Object> handleMethodArgumentNotValid(
 	      MethodArgumentNotValidException ex, HttpHeaders headers,
 	      HttpStatus status, WebRequest request) {

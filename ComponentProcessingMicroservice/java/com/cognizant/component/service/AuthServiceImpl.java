@@ -14,7 +14,6 @@ public class AuthServiceImpl implements AuthService {
 	@Override
 	public String getAuthorization(String token) {
 		
-		
 		return authClient.validateToken(token);
 	}
 

@@ -18,8 +18,5 @@ public interface ProcessRequestRepo extends JpaRepository<ProcessRequestInfo, Lo
 
 	 
 	List<ProcessRequestInfo> findByUserName(String userName);
-	
-	
-	
-	
+
 }
